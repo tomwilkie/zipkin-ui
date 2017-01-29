@@ -7,5 +7,8 @@
     "dagre-d3": "registry:dt/dagre-d3#0.0.0+20160620231311",
     "jasmine": "registry:dt/jasmine#2.5.0+20161119044246",
     "node": "registry:dt/node#6.0.0+20161220160159"
+  },
+  "dependencies": {
+    "d3": "registry:npm/d3#3.0.0+20160723033700"
   }
 }

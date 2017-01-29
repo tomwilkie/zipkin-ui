@@ -17,7 +17,7 @@ export class TraceGraphComponent implements OnInit {
 
         this
             .http
-            .get(`http://localhost:9411/api/v1/dependencies?endTs=1474206961061&lookback=86400000`, {})
+            .get(`/api/v1/dependencies?endTs=1474206961061&lookback=86400000`, {})
             .subscribe(res => {
                 let zip = <any>(res.json());
 

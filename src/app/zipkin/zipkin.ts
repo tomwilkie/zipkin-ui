@@ -80,7 +80,9 @@ export class Trace {
 
         let sortedSpans = this.getSortedSpans();
         sortedSpans.forEach(span => {
-            uniqueId += span.name + span.annotations[0].endpoint.serviceName;
+            if (span.annotations.length > 0) {
+                uniqueId += span.name + span.annotations[0].endpoint.serviceName;
+            }
         });
         if (error) {
             this.color = '#ff0000';
@@ -158,14 +160,14 @@ export class ZipkinService {
     services: string[];
 
     constructor( @Inject(Http) private http: Http) {
-        this.baseUri = 'localhost';
+        this.baseUri = '';
         this.traces = null;
     }
 
     getServices() {
         this
             .http
-            .get(`http://${this.baseUri}:9411/api/v1/services`, {})
+            .get(`${this.baseUri}/api/v1/services`, {})
             .subscribe(res => {
                 this.services = <string[]>(res.json());
                 this.services.push('[any]');
@@ -179,7 +181,7 @@ export class ZipkinService {
         let endTs = startDate.getTime();
         let lookback = endTs - endDate.getTime();
 
-        var uri = `http://${this.baseUri}:9411/api/v1/traces?endTs=${endTs}&lookback=${lookback}&annotationQuery=&limit=${limit}&minDuration=${minDuration}&spanName=all`;
+        var uri = `${this.baseUri}/api/v1/traces?endTs=${endTs}&lookback=${lookback}&annotationQuery=&limit=${limit}&minDuration=${minDuration}&spanName=all`;
         if (serviceName != undefined && serviceName != '[any]') {
             uri += `&serviceName=${serviceName}`;
         }
